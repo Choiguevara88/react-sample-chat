@@ -19,12 +19,23 @@ const Title = styled.Text`
     color: ${({theme, isFilled})=>isFilled ? theme.buttonTitle : theme.buttonUnfilledTitle};
 `;
 
-const Button = () => {
+const Button = ({ containerStyle, title, onPress, isFilled }) => {
     return (
-        <div>
-            
-        </div>
+        <Container style={containerStyle} onPress={onPress} isFilled={isFilled}>
+            <Title isFilled={isFilled}>{ title }</Title>
+        </Container>
     );
 };
+
+Button.defaultProps = {
+    isFilled: true,
+}
+
+Button.propTypes = {
+    containerStyle  :PropTypes.object,
+    title           :PropTypes.string,
+    onPress         :PropTypes.func.isRequired,
+    isFilled        :PropTypes.bool,
+}
 
 export default Button;
