@@ -67,6 +67,7 @@ const Login = ({ navigation }) => {
                 <Button 
                     title="Sign up with email"
                     onPress={()=>navigation.navigate('Signup')}
+                    isFilled={false}
                 />
             </Container>
         </KeyboardAwareScrollView>
