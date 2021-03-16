@@ -1,16 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Image, Input, Button } from '../components';
 import styled from 'styled-components/native';
 import { images } from '../utils/images';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {validateEmail, removeWhitespace} from '../utils/common';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { validateEmail, removeWhitespace } from '../utils/common';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Container = styled.View`
     flex : 1;
-    justify-content : center;
+    justify-content:center;
     align-items: center;
-    background-color : ${ ({theme})=>theme.background };
-    padding:20px;
+    background-color : ${ ({theme}) => theme.background };
+    padding:0 20px;
+    padding-top: ${({ insets: {top} }) => top}px;
+    padding-bottom:${({ insets: {bottom} }) => bottom}px;
 `;
 const ErrorText = styled.Text`
     align-items:flex-start;
@@ -22,10 +25,16 @@ const ErrorText = styled.Text`
 `;
 
 const Login = ({ navigation }) => {
+    const insets = useSafeAreaInsets();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const passwordRef = useRef();
     const [errorMessage, setErrorMessage] = useState('');
+    const [disabled, setDisabled] = useState(true);
+
+    useEffect(()=>{
+        setDisabled(!(email && password && !errorMessage))
+    }, [email, password, errorMessage])
 
     const _handleEmailChange = email => {
         const changedEmail = removeWhitespace(email);
@@ -42,7 +51,7 @@ const Login = ({ navigation }) => {
             contentContainerStyle={{flex:1}}
             extraScrollHeight={20}
         >
-            <Container>
+            <Container insets={insets}>
                 <Image url={images.logo} imageStyle={{borderRadius:50}}/>
                 <Input
                     label="Email"
@@ -63,7 +72,7 @@ const Login = ({ navigation }) => {
                     isPassword
                 />
                 <ErrorText>{ errorMessage }</ErrorText>
-                <Button title="login" onPress={_handleLoginButtonPress} />
+                <Button title="login" onPress={_handleLoginButtonPress} disabled={disabled}/>
                 <Button 
                     title="Sign up with email"
                     onPress={()=>navigation.navigate('Signup')}

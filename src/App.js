@@ -9,12 +9,9 @@ import Navigation from './navigations';
 import { images } from './utils/images';
 
 const cacheImages = images => {
-    return images.map(image=>{
-        if(typeof image === 'string') {
-            return Image.prefetch(image);
-        } else {
-            return Asset.fromModule(image).downloadAsync();
-        }
+    return images.map(image => {
+        if(typeof image === 'string')   return Image.prefetch(image);
+        else                            return Asset.fromModule(image).downloadAsync();
     })
 }
 const cacheFonts = fonts => {
