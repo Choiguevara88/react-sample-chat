@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "react-native-simple-chat",
+    "name": "Simple Chat",
     "slug": "react-native-simple-chat",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,13 +17,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSPhoyoLibraryUsageDescription": "The app accesses to photo library to upload ypur pofile photo when you are signing up or updating the profile."
+      },
+      "bundleIdentifier": "com.choi-jaewon.react-native-simple-chat"
     },
     "android": {
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA"
+      ],
+      "icon": "./assets/android-icon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/android-icon.png",
+        "backgroundColor": "#3679fe"
+      },
+      "package": "com.choijaewon.reactnativesimplechat"
     },
     "web": {
       "favicon": "./assets/favicon.png"
