@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import 'firebase/firebase';
+import 'firebase/firestore';
 import config from '../../firebase.json';
 
 const app = firebase.initializeApp(config);
@@ -69,4 +69,4 @@ export const creageChannel = async ({title, description}) => {
     };
     await newChannelRef.set(newChannel);
     return id;
-};
+}
