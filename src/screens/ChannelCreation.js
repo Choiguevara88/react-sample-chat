@@ -45,7 +45,7 @@ const ChannelCreation = ({ navigation }) => {
     const _handleCreateButtonPress = async () => {
         try {
             spinner.start();
-            const id = await creationChannel({title, description});
+            const id = await createChannel({title, description});
             navigation.replace('Channel', {id, title});
         } catch(e) {
             Alert.alert('Creation Error', e.message);

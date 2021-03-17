@@ -58,7 +58,7 @@ export const updateUserPhoto = async photoUrl => {
 }
 
 export const DB = firebase.firestore();
-export const creageChannel = async ({title, description}) => {
+export const createChannel = async ({title, description}) => {
     const newChannelRef = DB.collection('channels').doc();
     const id = newChannelRef.id;
     const newChannel = {

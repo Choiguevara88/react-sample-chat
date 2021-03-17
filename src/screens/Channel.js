@@ -6,10 +6,11 @@ const Container = styled.View`
     flex:1;
     background-color:${({theme}) => theme.background};
 `;
-const Channel = () => {
+const Channel = ({ route }) => {
     return (
         <Container>
-            <Text style={{fontSize:24}}>Channel</Text>
+            <Text style={{fontSize:24}}>{route.params?.id}</Text>
+            <Text style={{fontSize:24}}>{route.params?.title}</Text>
         </Container>
     );
 };
