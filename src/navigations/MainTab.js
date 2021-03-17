@@ -1,14 +1,64 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Profile, ChannelList} from '../screens';
+import { Profile, ChannelList } from '../screens';
+import { MaterialIcons } from '@expo/vector-icons';
+import { ThemeContext } from 'styled-components/native';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
-
-const MainTab = () => {
+const TabBarIcon = ({focused, name}) => {
+    const theme = useContext(ThemeContext);
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="Channel List" component={ChannelList} />
-            <Tab.Screen name="Profile" component={Profile} />
+        <MaterialIcons name={name} size={26} color={focused ? theme.tabActiveColor : theme.tabInactiveColor} />
+    )
+}
+
+const MainTab = ({ navigation, route }) => {
+    const theme = useContext(ThemeContext);
+
+    useEffect(()=>{
+        // const titles    = route.state?.routeNames || ['Channels'];
+        // const index     = route.state?.index || 0;
+        
+        const screenName = getFocusedRouteNameFromRoute(route) || 'Channels';
+
+        navigation.setOptions({ 
+            // headerTitle: titles[index],
+            headerTitle: screenName,
+            headerRight: () => 
+            // index === 0 && (
+            screenName === 'Channels' && (
+                <MaterialIcons
+                    name="add"
+                    size={26}
+                    style={{ margin:10 }}
+                    onPress={()=>navigation.navigate("Channel Creation")}
+                />
+            ) 
+        });
+    }, [route]);
+
+    return (
+        <Tab.Navigator
+            tabBarOoptions={{
+                activeTintColor:theme.tabActiveColor,
+                inactiveTintColor:theme.tabInactiveColor,
+            }}
+        >
+            <Tab.Screen 
+                name="Channels" 
+                component={ChannelList}
+                options={ {
+                    tabBarIcon: ( {focused} ) => TabBarIcon({ focused, name : focused ? 'chat-bubble' : 'chat-bubble-outline' })
+                } }
+            />
+            <Tab.Screen 
+                name="Profile" 
+                component={Profile}
+                options={{
+                    tabBarIcon: ( {focused} ) => TabBarIcon({ focused, name : focused ? 'person' : 'person-outline' })
+                }} 
+            />
         </Tab.Navigator>
     );
 };

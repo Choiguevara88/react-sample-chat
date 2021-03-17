@@ -19,7 +19,7 @@ const Label = styled.Text`
 const StyledTextInput = styled.TextInput.attrs(({theme})=>({
     placeholderTextColor: theme.inputPlaceholder,
 }))`
-    background-color:${({theme})=>theme.background};
+    background-color:${({theme, editable })=> editable ? theme.background : theme.inputDisabledBackground };
     color:${({theme})=>theme.text};
     padding:20px 10px;
     font-size:16px;
@@ -28,7 +28,7 @@ const StyledTextInput = styled.TextInput.attrs(({theme})=>({
 `;
 
 const Input = forwardRef((
-    {label, value, onChangeText, onSubmitEditing, onBlur, placeholder, isPassword, returnKeyType, maxLength,},ref
+    {label, value, onChangeText, onSubmitEditing, onBlur, placeholder, isPassword, returnKeyType, maxLength, disabled},ref
 ) => {
     const [isFocused, setIsFocused] = useState(false);
 
@@ -54,6 +54,7 @@ const Input = forwardRef((
                 autoCorrect={false}
                 textContentType="none"  // ios only
                 underlineColorAndroid="transparent" // Android only
+                editable={!disabled}
             />
         </Container>
     );
@@ -61,19 +62,22 @@ const Input = forwardRef((
 );
 
 Input.defaultProps = {
-    onBlur: ()=>{}
+    onBlur: ()=>{},
+    onChangeText: ()=>{},
+    onSubmitEditing: ()=>{},
 }
 
 Input.propTyps = {
-    label: PropTypes.string.isRequired,
-    value:  PropTypes.string.isRequired,
-    onChangeText:   PropTypes.func.isRequired,
-    onSubmitEditing:    PropTypes.func.isRequired,
-    onBlur: PropTypes.func,
-    placeholder:PropTypes.string,
-    isPassword:PropTypes.bool,
-    returnKeyType:PropTypes.oneOf(['done','next']),
-    maxLength:PropTypes.number
+    label:          PropTypes.string.isRequired,
+    value:          PropTypes.string.isRequired,
+    onChangeText:   PropTypes.func,
+    onSubmitEditing:PropTypes.func,
+    onBlur:         PropTypes.func,
+    placeholder:    PropTypes.string,
+    isPassword:     PropTypes.bool,
+    returnKeyType:  PropTypes.oneOf(['done','next']),
+    maxLength:      PropTypes.number,
+    disabked:       PropTypes.bool,
 }
 
 export default Input;
